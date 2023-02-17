@@ -4,8 +4,8 @@ using Networking.Client;
 using UnityEngine.UI;
 public class Unit
 {
-    public const float MOVEMENTSPEED = 2F;
-    public const float ROTATESPEED = 5F;
+    public const float MOVEMENTSPEED = 3F;
+    public const float ROTATESPEED = 7.5F;
     public int special_id;
     public int column { get; set; }
     public int row { get; set; }

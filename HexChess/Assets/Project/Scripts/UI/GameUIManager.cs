@@ -238,6 +238,8 @@ public class GameUIManager : MonoBehaviour
     public void OnSurrendButtonClick()
     {
         surrend_gameobject.SetActive(true);
+
+        AudioManager.Instance.OnClick();
     }
     public void ConfirmSurrend()
     {
@@ -245,11 +247,15 @@ public class GameUIManager : MonoBehaviour
         Sender.TCP_SendToServer(request);
         GameManager.Instance.pause = true;
         surrend_gameobject.SetActive(false);
+
+        AudioManager.Instance.OnClick();
     }
 
     public void DeclineSurrend()
     {
         surrend_gameobject.SetActive(false);
+
+        AudioManager.Instance.OnClick();
     }
     public void OnGameEnd()
     {

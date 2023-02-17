@@ -52,6 +52,9 @@ public class MainMenuUIManager : MonoBehaviour
     public TextMeshProUGUI status;
     public GameObject buttons;
 
+    [Header("Settings")]
+    public GameObject settings_gameobject;
+
     void Start()
     {
         animator = gameObject.GetComponent<Animator>();
@@ -64,11 +67,15 @@ public class MainMenuUIManager : MonoBehaviour
         NetCreateTicket request = new NetCreateTicket();
         request.class_type = (ClassType)class_type;
         Sender.TCP_SendToServer(request);
+
+        AudioManager.Instance.OnClick();
     }
     public void StopFindingMatchRequest()
     {
         NetStopMatchFinding request = new NetStopMatchFinding();
         Sender.TCP_SendToServer(request);
+
+        AudioManager.Instance.OnClick();
     }
 
     public void AcceptMatchRequest()
@@ -83,12 +90,16 @@ public class MainMenuUIManager : MonoBehaviour
 
         request.xml_team_structure = Data.Serialize<Data.Game>(data);
         Sender.TCP_SendToServer(request);
+
+        AudioManager.Instance.OnClick();
     }
 
     public void DeclineMatchRequest()
     {
         NetDeclineMatch request = new NetDeclineMatch();
         Sender.TCP_SendToServer(request);
+
+        AudioManager.Instance.OnClick();
     }
     public void OnDeclineMatchResponess()
     {
@@ -104,6 +115,7 @@ public class MainMenuUIManager : MonoBehaviour
         enemy_rank.text = enemy.rank.ToString();
         buttons.SetActive(true);
         match_found_gameobject.SetActive(true);
+        AudioManager.Instance.Play("MatchIsReady");
     }
 
     public void BothPlayerAcceptMatch()
@@ -176,24 +188,41 @@ public class MainMenuUIManager : MonoBehaviour
     {
         input_nickname.text = nickname.text;
         input_nickname.gameObject.SetActive(true);
+
+        AudioManager.Instance.OnClick();
     }
     public void SelectLight()
     {
         animator.Play("SelectLight");
+        AudioManager.Instance.OnClick();
     }
 
     public void DeselectLight()
     {
         animator.Play("DeselectLight");
+        AudioManager.Instance.OnClick();
     }
     public void SelectDark()
     {
         animator.Play("SelectDark");
+        AudioManager.Instance.OnClick();
     }
 
     public void DeselectDark()
     {
         animator.Play("DeselectDark");
+        AudioManager.Instance.OnClick();
+    }
+
+    public void OpenSettings()
+    {
+        settings_gameobject.SetActive(true);
+        AudioManager.Instance.OnClick();
+    }
+    public void CloseSettings()
+    {
+        settings_gameobject.SetActive(false);
+        AudioManager.Instance.OnClick();
     }
     public void SetPlayerInfo(Player player)
     {
@@ -203,5 +232,13 @@ public class MainMenuUIManager : MonoBehaviour
     public void OnConnected()
     {
         connecting_panel.SetActive(false);
+    }
+
+    public void Quit()
+    {
+        //RealtimeNetworking.Disconnected();
+        Receiver.Instance.UnSubscibeOnLeaveMainMenu();
+        Receiver.Instance.UnSubscribeOnLeaveMatch();
+        Application.Quit();
     }
 }

@@ -38,10 +38,14 @@ public class Chat : MonoBehaviour
     public void PopOut()
     {
         anim.Play("PopOut");
+
+        AudioManager.Instance.OnClick();
     }
     public void PopIn()
     {
         anim.Play("PopIn");
+
+        AudioManager.Instance.OnClick();
 
     }
     public void Idle()
